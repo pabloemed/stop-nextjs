@@ -48,7 +48,7 @@ function App() {
   return (
     <div className="App">
       <h1>Barcode Scanner</h1>
-      <video id="barcode-scanner" width="100%" height="100%" />
+      <video id="barcode-scanner" width="100%" height="100%" playsInline />
     </div>
   );
 }
