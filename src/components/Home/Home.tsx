@@ -1,3 +1,4 @@
+'use client'
 import Quagga from "quagga";
 import { useEffect } from "react";
 
