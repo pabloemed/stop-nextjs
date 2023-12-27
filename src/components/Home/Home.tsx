@@ -48,7 +48,7 @@ const IndexPage = () => {
 
     const handleBarcodeDetected = (result: any) => {
       const code = result.codeResult.code;
-      alert('Barcode detected: + code' );
+      alert('Barcode detected: ' + code );
       // Aquí puedes realizar acciones con el código de barras, como mostrarlo en la interfaz de usuario.
       // Por ejemplo, podrías usar el estado de React para almacenar y mostrar el código de barras:
       // setBarcode(code);
