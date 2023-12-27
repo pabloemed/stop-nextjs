@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
- 
+declare var window: any;
+
 function App() {
   useEffect(() => {
     const initScanner = async () => {
@@ -8,7 +9,7 @@ function App() {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
-        const video = document.getElementById("barcode-scanner");
+        const video: any = document.getElementById("barcode-scanner");
         video.srcObject = stream;
         video.play();
 
@@ -23,7 +24,7 @@ function App() {
               readers: ["ean_reader"],
             },
           },
-          (err) => {
+          (err: any) => {
             if (err) {
               console.error(err);
               return;
