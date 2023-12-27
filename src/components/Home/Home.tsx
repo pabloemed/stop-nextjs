@@ -9,12 +9,28 @@ const IndexPage = () => {
   useEffect(() => {
     const initScanner = async () => {
       try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+
+        // Selecciona la cámara trasera si está disponible
+        const rearCamera = videoDevices.find((device) => device.label.includes('back'));
+        const deviceId = rearCamera ? { deviceId: { exact: rearCamera.deviceId } } : {};
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { ...deviceId, facingMode: 'environment' },
+        });
+
+        const video: any = document.getElementById('barcode-scanner');
+        video.srcObject = stream;
+        video.play();
+
         Quagga.init(
           {
             inputStream: {
-              name: "Live",
-              type: "LiveStream",
-              target: document.querySelector("#barcode-scanner"),
+              name: 'Live',
+              type: 'LiveStream',
+              target: video,
+              ...deviceId,
             },
             decoder: {
               readers: ["code_128_reader"],
