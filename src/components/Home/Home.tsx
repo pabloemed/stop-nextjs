@@ -1,33 +1,39 @@
 "use client";
 import React, { useEffect } from "react";
 declare var window: any;
- 
+const Quagga = require("quagga").default; // Common JS (important: default)
+
 const IndexPage = () => {
   useEffect(() => {
     const initScanner = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video: any = document.getElementById('barcode-scanner');
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        const video: any = document.getElementById("barcode-scanner");
         video.srcObject = stream;
         video.play();
 
-        window.Quagga.init({
-          inputStream: {
-            name: 'Live',
-            type: 'LiveStream',
-            target: video,
+        Quagga.init(
+          {
+            inputStream: {
+              name: "Live",
+              type: "LiveStream",
+              target: video,
+            },
+            decoder: {
+              readers: ["ean_reader"],
+            },
           },
-          decoder: {
-            readers: ['ean_reader'],
-          },
-        }, (err: any) => {
-          if (err) {
-            alert(err);
-            return;
+          (err: any) => {
+            if (err) {
+              alert(err);
+              return;
+            }
+            Quagga.onDetected(handleBarcodeDetected);
+            Quagga.start();
           }
-          window.Quagga.onDetected(handleBarcodeDetected);
-          window.Quagga.start();
-        });
+        );
       } catch (error) {
         alert(error);
       }
@@ -35,7 +41,7 @@ const IndexPage = () => {
 
     const handleBarcodeDetected = (result: any) => {
       const code = result.codeResult.code;
-      alert('Barcode detected: ' + code);
+      alert("Barcode detected: " + code);
       // Aquí puedes realizar acciones con el código de barras, como mostrarlo en la interfaz de usuario.
       // Por ejemplo, podrías usar el estado de React para almacenar y mostrar el código de barras:
       // setBarcode(code);
